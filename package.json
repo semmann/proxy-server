@@ -1,0 +1,22 @@
+{
+  "name": "proxy-server",
+  "version": "1.0.0",
+  "description": "first web server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/semmann/proxy-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/semmann/proxy-server/issues"
+  },
+  "homepage": "https://github.com/semmann/proxy-server#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}
