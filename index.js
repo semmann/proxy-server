@@ -1,30 +1,38 @@
+var http = require('http')
+var fs = require('fs')
+var request = require('request')
+var argv = require('yargs').argv
 
+var scheme = 'http://'
+var host = argv.host || 'localhost'
+var port = argv.port || (host === 'localhost' ? 8000 : 80)
+var destUrl = scheme + host + ':' + port
+var logStream = argv.logfile ? fs.createWriteStream(argv.logfile) : process.stdout
 
-let http = require('http')
-let request = require('request')
+var echoserver = http.createServer((req, res) => {
+logStream.write('echoserver\n')
+  for(var header in req.headers) {
+    res.setHeader(header, req.headers[header])
+  }
+  logStream.write(JSON.stringify(req.headers )+ '\n')
+  req.pipe(res)
+})
 
-http.createServer((req, res) => {
-    console.log(`Request received at: ${req.url}`)
-    
+echoserver.listen(8000)
 
-for (let header in req.headers) {
- res.setHeader(header, req.headers[header])
+var proxyserver = http.createServer((req, res) => {
+logStream.write('proxyserver\n')
+logStream.write(JSON.stringify(req.headers) + '\n')
+var toUrl = destUrl
+if (req.headers['x-destination-url']) {
+  toUrl = scheme + req.headers['x-destination-url']
 }
-req.pipe(res)
 
-}).listen(8000)
+  var options = {
+    url : toUrl + req.url
+  }
 
-let destinationUrl = '127.0.0.1:8000'
+  req.pipe(request(options)).pipe(res)
+})
 
-http.createServer((req, res) => {
-  console.log(`Proxying request to: ${destinationUrl + req.url}`)
-  // Proxy code here
-let options = {
-        headers: req.headers,
-        url: 'http://${destinationUrl}${req.url}'
-    }
-    options.method = req.method
-    req.pipe(request(options)).pipe(res)
-
-
-}).listen(8001)
+proxyserver.listen(8001)
