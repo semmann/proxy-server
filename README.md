@@ -15,7 +15,6 @@ Completed:
 
 Walkthrough Gif: [Add walkthrough.gif to the project root]
 
-![Video Walkthrough](walkthrough.gif)
 
 ## Starting the Server
 
