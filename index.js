@@ -16,9 +16,7 @@ logStream.write('echoserver\n')
   }
   logStream.write(JSON.stringify(req.headers )+ '\n')
   req.pipe(res)
-})
-
-echoserver.listen(8000)
+}).listen(8000)
 
 var proxyserver = http.createServer((req, res) => {
 logStream.write('proxyserver\n')
@@ -33,6 +31,4 @@ if (req.headers['x-destination-url']) {
   }
 
   req.pipe(request(options)).pipe(res)
-})
-
-proxyserver.listen(8001)
+}).listen(8001)

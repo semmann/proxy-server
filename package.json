@@ -17,6 +17,8 @@
     "url": "https://github.com/semmann/proxy-server/issues"
   },
   "homepage": "https://github.com/semmann/proxy-server#readme",
-  "dependencies": {},
+  "dependencies": {
+    "yargs": "^3.32.0"
+  },
   "devDependencies": {}
 }
